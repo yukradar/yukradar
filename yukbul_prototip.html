@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="tr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>YükRadar</title>
+<style>
+:root{--bg:#f4f6f8;--card:#fff;--text:#17212b;--muted:#6b7785;--primary:#0b6b4f;--primary2:#0e8a66;--line:#e4e8ec;--warn:#fff5d8;--shadow:0 8px 24px rgba(23,33,43,.08)}
+*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text)}
+.app{max-width:480px;margin:auto;min-height:100vh;padding-bottom:88px}
+header{background:linear-gradient(135deg,#083f31,#0b6b4f);color:#fff;padding:18px 18px 22px;border-radius:0 0 24px 24px}
+.top{display:flex;justify-content:space-between;align-items:center}.brand{font-size:25px;font-weight:800;letter-spacing:-.5px}.bell{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:19px}
+.sub{margin-top:5px;color:#d8eee7;font-size:13px}.free{margin-top:18px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:11px 13px;border-radius:13px;font-size:13px}
+main{padding:16px}.panel{background:var(--card);border-radius:18px;padding:16px;box-shadow:var(--shadow);margin-bottom:16px}
+label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:0 0 7px}select{width:100%;height:48px;border:1px solid var(--line);border-radius:12px;padding:0 12px;background:#fff;color:var(--text);font-size:15px;outline:none}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{margin-bottom:13px}.btn{width:100%;border:0;border-radius:13px;background:var(--primary);color:white;height:52px;font-size:16px;font-weight:800;cursor:pointer}.btn:active{transform:scale(.99)}
+.titleRow{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 12px}.title{font-size:19px;font-weight:800}.count{font-size:12px;color:var(--muted)}
+.load{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;margin-bottom:11px;box-shadow:0 4px 14px rgba(23,33,43,.05)}
+.route{font-size:16px;font-weight:800}.arrow{color:var(--primary);padding:0 4px}.meta{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}.tag{background:#f0f4f5;border-radius:8px;padding:5px 8px;font-size:11px;color:#4e5b67}.price{font-size:18px;font-weight:900;color:var(--primary)}.source{margin-top:9px;font-size:10px;color:#84909a}.lock{position:relative;overflow:hidden}.lock .blur{filter:blur(4px);opacity:.45}.lockBadge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.66);font-weight:800;color:#28343d}
+.ai{background:linear-gradient(135deg,#eef8f4,#fff);border:1px solid #d9eee7}.aiTitle{font-weight:800;font-size:16px}.ai p{font-size:12px;color:var(--muted);margin:6px 0 12px}.aiInput{height:44px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:0 12px;width:100%;font-size:13px}
+.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);height:76px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:5}.nav{text-align:center;padding-top:12px;color:#8a949d;font-size:10px}.nav b{display:block;font-size:19px;margin-bottom:3px}.nav.active{color:var(--primary);font-weight:800}
+@media(min-width:700px){body{padding:20px}.app{box-shadow:0 10px 40px rgba(0,0,0,.08);border-radius:25px;overflow:hidden;background:var(--bg)}header{border-radius:0}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="top"><div class="brand">🚛 YükRadar</div><div class="bell">🔔</div></div>
+  <div class="sub">Bulunduğun ilden uygun sevkiyatları keşfet.</div>
+  <div class="free">🎁 Yeni üyeler için <b>ilk 7 gün ücretsiz</b> kullanım</div>
+</header>
+
+<main>
+<section class="panel">
+  <div class="grid">
+    <div class="field">
+      <label>BULUNDUĞUN İL</label>
+      <select id="city">
+        <option>Konya</option><option>Adana</option><option>Ankara</option><option>Antalya</option><option>Bursa</option><option>Gaziantep</option><option>İstanbul</option><option>İzmir</option><option>Kayseri</option><option>Mersin</option><option>Samsun</option><option>Diğer 81 il...</option>
+      </select>
+    </div>
+    <div class="field">
+      <label>ARAÇ TİPİ</label>
+      <select id="vehicle">
+        <option>13.60 Tır</option><option>Kısa Dorse</option><option>Kamyon (10 Teker - 40 Ayak)</option><option>Ufak Araç</option>
+      </select>
+    </div>
+  </div>
+  <div class="field">
+    <label>YÜK TİPİ</label>
+    <select id="cargo">
+      <option>Tüm Sevkiyatlar</option><option>Parça / Parsiyel</option><option>Komple Yük</option>
+    </select>
+  </div>
+  <button class="btn" onclick="findLoads()">🔎 Uygun Sevkiyatları Bul</button>
+</section>
+
+<div class="titleRow"><div class="title">Sana Uygun Sevkiyatlar</div><div class="count" id="count">4 sonuç</div></div>
+<div id="loads"></div>
+
+<section class="panel ai">
+  <div class="aiTitle">🤖 YükRadar Yük Asistanı</div>
+  <p>İstersen doğal cümleyle sor: “Konya'dan bugün hangi parsiyel yükler var?”</p>
+  <input class="aiInput" placeholder="Yük ara veya soru sor..." />
+</section>
+</main>
+
+<nav class="bottom">
+  <div class="nav active"><b>⌂</b>Ana Sayfa</div>
+  <div class="nav"><b>📦</b>Yükler</div>
+  <div class="nav"><b>🛣️</b>Seferler</div>
+  <div class="nav"><b>🔔</b>Bildirim</div>
+  <div class="nav"><b>👤</b>Profil</div>
+</nav>
+</div>
+
+<script>
+const data={
+ "Konya":[
+  ["Konya","İstanbul","24 ton","13.60 Tır","18.500 TL","Komple Yük","7 Eylül"],
+  ["Konya","Ankara","22 ton","13.60 Tır","12.000 TL","Komple Yük","7 Eylül"],
+  ["Konya","Bursa","18 ton","13.60 Tır","17.500 TL","Parça / Parsiyel","7 Eylül"],
+  ["Konya","Mersin","8 ton","13.60 Tır","11.500 TL","Parça / Parsiyel","7 Eylül"],
+  ["Konya","İzmir","23 ton","13.60 Tır","20.000 TL","Komple Yük","8 Eylül"],
+  ["Konya","Antalya","6 ton","13.60 Tır","9.500 TL","Parça / Parsiyel","8 Eylül"]
+ ],
+ "Ankara":[
+  ["Ankara","İstanbul","24 ton","13.60 Tır","19.500 TL","Komple Yük","7 Eylül"],
+  ["Ankara","İzmir","20 ton","13.60 Tır","18.000 TL","Komple Yük","7 Eylül"],
+  ["Ankara","Konya","7 ton","13.60 Tır","8.500 TL","Parça / Parsiyel","7 Eylül"]
+ ],
+ "İstanbul":[
+  ["İstanbul","Ankara","24 ton","13.60 Tır","17.500 TL","Komple Yük","7 Eylül"],
+  ["İstanbul","Bursa","10 ton","13.60 Tır","9.000 TL","Parça / Parsiyel","7 Eylül"],
+  ["İstanbul","İzmir","23 ton","13.60 Tır","22.000 TL","Komple Yük","8 Eylül"]
+ ]
+};
+function findLoads(){
+ const city=document.getElementById("city").value;
+ const vehicle=document.getElementById("vehicle").value;
+ const cargo=document.getElementById("cargo").value;
+ let arr=data[city]||[];
+ if(cargo!=="Tüm Sevkiyatlar") arr=arr.filter(x=>x[5]===cargo);
+ document.getElementById("count").textContent=arr.length+" sonuç";
+ render(arr,vehicle);
+}
+function render(arr,vehicle){
+ const box=document.getElementById("loads");
+ if(!arr.length){box.innerHTML='<div class="panel" style="text-align:center;color:#6b7785">Bu seçim için örnek sevkiyat bulunamadı.</div>';return}
+ box.innerHTML=arr.map((x,i)=>`
+ <div class="load ${i>3?'lock':''}">
+   <div class="${i>3?'blur':''}">
+    <div class="route">📍 ${x[0]} <span class="arrow">→</span> ${x[1]}</div>
+    <div class="meta"><span class="tag">${x[2]}</span><span class="tag">${x[3]}</span><span class="tag">${x[5]}</span><span class="tag">${x[6]}</span></div>
+    <div class="price">${x[4]}</div>
+    <div class="source">Örnek veri • Gerçek entegrasyon aşamasında ilan kaynağı gösterilecektir.</div>
+   </div>
+   ${i>3?'<div class="lockBadge">🔒 7 günlük ücretsiz denemeden sonra üyelik gerekli</div>':''}
+ </div>`).join("");
+}
+findLoads();
+</script>
+</body>
+</html>
