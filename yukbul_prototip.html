@@ -2,123 +2,100 @@
 <html lang="tr">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
 <title>YükRadar</title>
 <style>
-:root{--bg:#f4f6f8;--card:#fff;--text:#17212b;--muted:#6b7785;--primary:#0b6b4f;--primary2:#0e8a66;--line:#e4e8ec;--warn:#fff5d8;--shadow:0 8px 24px rgba(23,33,43,.08)}
-*{box-sizing:border-box}body{margin:0;background:var(--bg);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:var(--text)}
-.app{max-width:480px;margin:auto;min-height:100vh;padding-bottom:88px}
-header{background:linear-gradient(135deg,#083f31,#0b6b4f);color:#fff;padding:18px 18px 22px;border-radius:0 0 24px 24px}
-.top{display:flex;justify-content:space-between;align-items:center}.brand{font-size:25px;font-weight:800;letter-spacing:-.5px}.bell{width:40px;height:40px;border-radius:50%;background:rgba(255,255,255,.14);display:grid;place-items:center;font-size:19px}
-.sub{margin-top:5px;color:#d8eee7;font-size:13px}.free{margin-top:18px;background:rgba(255,255,255,.13);border:1px solid rgba(255,255,255,.2);padding:11px 13px;border-radius:13px;font-size:13px}
-main{padding:16px}.panel{background:var(--card);border-radius:18px;padding:16px;box-shadow:var(--shadow);margin-bottom:16px}
-label{display:block;font-size:12px;font-weight:700;color:var(--muted);margin:0 0 7px}select{width:100%;height:48px;border:1px solid var(--line);border-radius:12px;padding:0 12px;background:#fff;color:var(--text);font-size:15px;outline:none}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:11px}.field{margin-bottom:13px}.btn{width:100%;border:0;border-radius:13px;background:var(--primary);color:white;height:52px;font-size:16px;font-weight:800;cursor:pointer}.btn:active{transform:scale(.99)}
-.titleRow{display:flex;justify-content:space-between;align-items:center;margin:4px 2px 12px}.title{font-size:19px;font-weight:800}.count{font-size:12px;color:var(--muted)}
-.load{background:#fff;border:1px solid var(--line);border-radius:17px;padding:15px;margin-bottom:11px;box-shadow:0 4px 14px rgba(23,33,43,.05)}
-.route{font-size:16px;font-weight:800}.arrow{color:var(--primary);padding:0 4px}.meta{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}.tag{background:#f0f4f5;border-radius:8px;padding:5px 8px;font-size:11px;color:#4e5b67}.price{font-size:18px;font-weight:900;color:var(--primary)}.source{margin-top:9px;font-size:10px;color:#84909a}.lock{position:relative;overflow:hidden}.lock .blur{filter:blur(4px);opacity:.45}.lockBadge{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(255,255,255,.66);font-weight:800;color:#28343d}
-.ai{background:linear-gradient(135deg,#eef8f4,#fff);border:1px solid #d9eee7}.aiTitle{font-weight:800;font-size:16px}.ai p{font-size:12px;color:var(--muted);margin:6px 0 12px}.aiInput{height:44px;border:1px solid var(--line);border-radius:11px;background:#fff;padding:0 12px;width:100%;font-size:13px}
-.bottom{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:min(480px,100%);height:76px;background:rgba(255,255,255,.96);backdrop-filter:blur(10px);border-top:1px solid var(--line);display:grid;grid-template-columns:repeat(5,1fr);z-index:5}.nav{text-align:center;padding-top:12px;color:#8a949d;font-size:10px}.nav b{display:block;font-size:19px;margin-bottom:3px}.nav.active{color:var(--primary);font-weight:800}
-@media(min-width:700px){body{padding:20px}.app{box-shadow:0 10px 40px rgba(0,0,0,.08);border-radius:25px;overflow:hidden;background:var(--bg)}header{border-radius:0}}
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#f4f7f8;color:#17212b}
+.app{max-width:520px;margin:auto;min-height:100vh;background:#f7f9fa;padding-bottom:86px}
+.top{background:#0f766e;color:#fff;padding:22px 18px 18px;border-radius:0 0 24px 24px;box-shadow:0 5px 18px #0002}
+.brand{display:flex;align-items:center;justify-content:space-between}.logo{font-size:24px;font-weight:800}.bell{background:#ffffff22;border:1px solid #ffffff33;border-radius:12px;padding:9px;font-size:20px}
+.small{font-size:13px;opacity:.82;margin-top:3px}.location{margin-top:18px;background:#ffffff18;border:1px solid #ffffff30;border-radius:14px;padding:12px 13px;display:flex;justify-content:space-between;align-items:center}
+.content{padding:18px}.card{background:#fff;border:1px solid #e1e7eb;border-radius:18px;padding:16px;box-shadow:0 3px 12px #1222;margin-bottom:15px}
+h2{font-size:19px;margin:2px 0 13px}.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.field label{font-size:12px;color:#687681;display:block;margin:0 0 6px}.field select,.field input{width:100%;padding:13px 11px;border:1px solid #d5dde2;border-radius:12px;background:#fff;font-size:15px;color:#17212b}
+.full{grid-column:1/-1}.cta{width:100%;border:0;background:#0f766e;color:#fff;padding:15px;border-radius:13px;font-size:17px;font-weight:750;margin-top:13px}
+.ai{background:linear-gradient(135deg,#ecfdf5,#eff6ff);border:1px solid #cfe9df}.ai textarea{width:100%;min-height:70px;border:1px solid #d5dde2;border-radius:12px;padding:12px;font:inherit;resize:none}.ai button{margin-top:9px;border:0;border-radius:11px;background:#17212b;color:#fff;padding:10px 14px;font-weight:650}
+.section-title{display:flex;justify-content:space-between;align-items:center;margin:20px 2px 10px}.section-title h2{margin:0}.filter{font-size:13px;color:#0f766e;font-weight:700}
+.load{background:#fff;border:1px solid #e0e7eb;border-radius:17px;padding:15px;margin-bottom:11px}.route{font-size:18px;font-weight:800}.arrow{color:#0f766e}.meta{display:flex;gap:7px;flex-wrap:wrap;margin:9px 0}.pill{font-size:12px;background:#eef3f5;padding:6px 8px;border-radius:9px;color:#52616c}.price{font-size:18px;font-weight:800}.bottom{position:fixed;bottom:0;left:0;right:0;max-width:520px;margin:auto;background:#fff;border-top:1px solid #dde4e8;display:flex;justify-content:space-around;padding:9px 5px calc(9px + env(safe-area-inset-bottom));z-index:5}.nav{font-size:11px;color:#65737d;text-align:center}.nav b{display:block;font-size:20px;line-height:23px}.nav.active{color:#0f766e;font-weight:750}.note{font-size:11px;color:#7b8790;text-align:center;margin-top:5px}
+.toast{position:fixed;left:50%;bottom:88px;transform:translateX(-50%);background:#17212b;color:white;padding:10px 14px;border-radius:12px;font-size:13px;display:none;z-index:10}
+@media(min-width:600px){body{padding:20px 0}.app{border-radius:24px;overflow:hidden;box-shadow:0 10px 40px #0002}}
 </style>
 </head>
 <body>
 <div class="app">
-<header>
-  <div class="top"><div class="brand">🚛 YükRadar</div><div class="bell">🔔</div></div>
-  <div class="sub">Bulunduğun ilden uygun sevkiyatları keşfet.</div>
-  <div class="free">🎁 Yeni üyeler için <b>ilk 7 gün ücretsiz</b> kullanım</div>
+<header class="top">
+  <div class="brand"><div><div class="logo">🚛 YükRadar</div><div class="small">Uygun yükü bul, boş dönme.</div></div><div class="bell">🔔</div></div>
+  <div class="location"><span>📍 Konya</span><span>Değiştir ›</span></div>
 </header>
 
-<main>
-<section class="panel">
-  <div class="grid">
-    <div class="field">
-      <label>BULUNDUĞUN İL</label>
-      <select id="city">
-        <option>Konya</option><option>Adana</option><option>Ankara</option><option>Antalya</option><option>Bursa</option><option>Gaziantep</option><option>İstanbul</option><option>İzmir</option><option>Kayseri</option><option>Mersin</option><option>Samsun</option><option>Diğer 81 il...</option>
-      </select>
-    </div>
-    <div class="field">
-      <label>ARAÇ TİPİ</label>
-      <select id="vehicle">
-        <option>13.60 Tır</option><option>Kısa Dorse</option><option>Kamyon (10 Teker - 40 Ayak)</option><option>Ufak Araç</option>
-      </select>
-    </div>
-  </div>
-  <div class="field">
-    <label>YÜK TİPİ</label>
-    <select id="cargo">
-      <option>Tüm Sevkiyatlar</option><option>Parça / Parsiyel</option><option>Komple Yük</option>
-    </select>
-  </div>
-  <button class="btn" onclick="findLoads()">🔎 Uygun Sevkiyatları Bul</button>
+<main class="content">
+<section class="card">
+<h2>Yük ara</h2>
+<div class="grid">
+ <div class="field"><label>Araç tipi</label><select id="vehicle"><option>13.60 Tır</option><option>Kısa Dorse</option><option>Kamyon (10 Teker - 40 Ayak)</option><option>Ufak Araç</option></select></div>
+ <div class="field"><label>Yükleme tarihi</label><input type="date" id="date"></div>
+ <div class="field full"><label>Gideceğin yön</label><input id="destination" placeholder="Örn. İstanbul, Ankara, Bursa"></div>
+</div>
+<button class="cta" onclick="findLoads()">🔎 Uygun Yükleri Bul</button>
+<div class="note">Şimdilik örnek veriler gösterilmektedir.</div>
 </section>
 
-<div class="titleRow"><div class="title">Sana Uygun Sevkiyatlar</div><div class="count" id="count">4 sonuç</div></div>
-<div id="loads"></div>
-
-<section class="panel ai">
-  <div class="aiTitle">🤖 YükRadar Yük Asistanı</div>
-  <p>İstersen doğal cümleyle sor: “Konya'dan bugün hangi parsiyel yükler var?”</p>
-  <input class="aiInput" placeholder="Yük ara veya soru sor..." />
+<section class="card ai">
+<h2>🤖 YükRadar Asistanı</h2>
+<div style="font-size:13px;color:#596873;margin-bottom:9px">Normal cümleyle yaz, uygun yükleri filtreleyelim.</div>
+<textarea placeholder="Örn: Konya'dan İstanbul'a yarın çıkacağım, 13.60 tır..."></textarea>
+<button onclick="showToast('YükRadar Asistanı prototipte hazır 👍')">Asistana Sor</button>
 </section>
+
+<div class="section-title"><h2>Sana Uygun Yükler</h2><span class="filter">Filtrele ☰</span></div>
+
+<div id="loads">
+<div class="load" data-dest="istanbul">
+ <div class="route">Konya <span class="arrow">→</span> İstanbul</div>
+ <div class="meta"><span class="pill">24 ton</span><span class="pill">13.60 Tır</span><span class="pill">7 Eylül</span></div>
+ <div class="price">18.500 TL</div>
+ <div class="note" style="text-align:left">Örnek ilan • Kaynak: Facebook açık ilan örneği</div>
+</div>
+<div class="load" data-dest="ankara">
+ <div class="route">Konya <span class="arrow">→</span> Ankara</div>
+ <div class="meta"><span class="pill">20 ton</span><span class="pill">13.60 Tır</span><span class="pill">7 Eylül</span></div>
+ <div class="price">11.500 TL</div>
+ <div class="note" style="text-align:left">Örnek ilan • Kaynak: WhatsApp'tan iletilen ilan örneği</div>
+</div>
+<div class="load" data-dest="bursa">
+ <div class="route">Konya <span class="arrow">→</span> Bursa</div>
+ <div class="meta"><span class="pill">23 ton</span><span class="pill">13.60 Tır</span><span class="pill">8 Eylül</span></div>
+ <div class="price">17.000 TL</div>
+ <div class="note" style="text-align:left">Örnek ilan • Kaynak: açık ilan örneği</div>
+</div>
+<div class="load" data-dest="mersin">
+ <div class="route">Konya <span class="arrow">→</span> Mersin</div>
+ <div class="meta"><span class="pill">18 ton</span><span class="pill">Kısa Dorse</span><span class="pill">7 Eylül</span></div>
+ <div class="price">10.500 TL</div>
+ <div class="note" style="text-align:left">Örnek ilan • Kaynak: açık ilan örneği</div>
+</div>
+</div>
 </main>
 
 <nav class="bottom">
-  <div class="nav active"><b>⌂</b>Ana Sayfa</div>
-  <div class="nav"><b>📦</b>Yükler</div>
-  <div class="nav"><b>🛣️</b>Seferler</div>
-  <div class="nav"><b>🔔</b>Bildirim</div>
-  <div class="nav"><b>👤</b>Profil</div>
+ <div class="nav active"><b>⌂</b>Ana Sayfa</div><div class="nav"><b>▣</b>Yükler</div><div class="nav"><b>🚛</b>Seferler</div><div class="nav"><b>🔔</b>Bildirim</div><div class="nav"><b>●</b>Profil</div>
 </nav>
+<div id="toast" class="toast"></div>
 </div>
-
 <script>
-const data={
- "Konya":[
-  ["Konya","İstanbul","24 ton","13.60 Tır","18.500 TL","Komple Yük","7 Eylül"],
-  ["Konya","Ankara","22 ton","13.60 Tır","12.000 TL","Komple Yük","7 Eylül"],
-  ["Konya","Bursa","18 ton","13.60 Tır","17.500 TL","Parça / Parsiyel","7 Eylül"],
-  ["Konya","Mersin","8 ton","13.60 Tır","11.500 TL","Parça / Parsiyel","7 Eylül"],
-  ["Konya","İzmir","23 ton","13.60 Tır","20.000 TL","Komple Yük","8 Eylül"],
-  ["Konya","Antalya","6 ton","13.60 Tır","9.500 TL","Parça / Parsiyel","8 Eylül"]
- ],
- "Ankara":[
-  ["Ankara","İstanbul","24 ton","13.60 Tır","19.500 TL","Komple Yük","7 Eylül"],
-  ["Ankara","İzmir","20 ton","13.60 Tır","18.000 TL","Komple Yük","7 Eylül"],
-  ["Ankara","Konya","7 ton","13.60 Tır","8.500 TL","Parça / Parsiyel","7 Eylül"]
- ],
- "İstanbul":[
-  ["İstanbul","Ankara","24 ton","13.60 Tır","17.500 TL","Komple Yük","7 Eylül"],
-  ["İstanbul","Bursa","10 ton","13.60 Tır","9.000 TL","Parça / Parsiyel","7 Eylül"],
-  ["İstanbul","İzmir","23 ton","13.60 Tır","22.000 TL","Komple Yük","8 Eylül"]
- ]
-};
+const d=document.getElementById('date'); d.value=new Date().toISOString().slice(0,10);
 function findLoads(){
- const city=document.getElementById("city").value;
- const vehicle=document.getElementById("vehicle").value;
- const cargo=document.getElementById("cargo").value;
- let arr=data[city]||[];
- if(cargo!=="Tüm Sevkiyatlar") arr=arr.filter(x=>x[5]===cargo);
- document.getElementById("count").textContent=arr.length+" sonuç";
- render(arr,vehicle);
+ const dest=document.getElementById('destination').value.trim().toLowerCase();
+ const vehicle=document.getElementById('vehicle').value;
+ let shown=0;
+ document.querySelectorAll('.load').forEach(x=>{
+   const okDest=!dest||x.dataset.dest.includes(dest.replace('i̇','i').slice(0,5));
+   const okVehicle=x.innerText.includes(vehicle)||vehicle!=='13.60 Tır';
+   x.style.display=(okDest&&okVehicle)?'block':'none'; if(okDest&&okVehicle)shown++;
+ });
+ showToast(shown+' uygun örnek yük bulundu');
 }
-function render(arr,vehicle){
- const box=document.getElementById("loads");
- if(!arr.length){box.innerHTML='<div class="panel" style="text-align:center;color:#6b7785">Bu seçim için örnek sevkiyat bulunamadı.</div>';return}
- box.innerHTML=arr.map((x,i)=>`
- <div class="load ${i>3?'lock':''}">
-   <div class="${i>3?'blur':''}">
-    <div class="route">📍 ${x[0]} <span class="arrow">→</span> ${x[1]}</div>
-    <div class="meta"><span class="tag">${x[2]}</span><span class="tag">${x[3]}</span><span class="tag">${x[5]}</span><span class="tag">${x[6]}</span></div>
-    <div class="price">${x[4]}</div>
-    <div class="source">Örnek veri • Gerçek entegrasyon aşamasında ilan kaynağı gösterilecektir.</div>
-   </div>
-   ${i>3?'<div class="lockBadge">🔒 7 günlük ücretsiz denemeden sonra üyelik gerekli</div>':''}
- </div>`).join("");
-}
-findLoads();
+function showToast(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',2200)}
 </script>
 </body>
 </html>
