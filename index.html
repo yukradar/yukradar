@@ -82,20 +82,183 @@ h2{font-size:19px;margin:2px 0 13px}.grid{display:grid;grid-template-columns:1fr
 </nav>
 <div id="toast" class="toast"></div>
 </div>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
 <script>
-const d=document.getElementById('date'); d.value=new Date().toISOString().slice(0,10);
-function findLoads(){
- const dest=document.getElementById('destination').value.trim().toLowerCase();
- const vehicle=document.getElementById('vehicle').value;
- let shown=0;
- document.querySelectorAll('.load').forEach(x=>{
-   const okDest=!dest||x.dataset.dest.includes(dest.replace('i̇','i').slice(0,5));
-   const okVehicle=x.innerText.includes(vehicle)||vehicle!=='13.60 Tır';
-   x.style.display=(okDest&&okVehicle)?'block':'none'; if(okDest&&okVehicle)shown++;
- });
- showToast(shown+' uygun örnek yük bulundu');
+const SUPABASE_URL = "https://inqemiglfelvepxgjlod.supabase.co";
+const SUPABASE_PUBLISHABLE_KEY = "sb_publishable_cqK2O5-DBEPzhqOmC4yFVg_WIQDBGys";
+
+
+const supabaseClient = window.supabase.createClient(
+  SUPABASE_URL,
+  SUPABASE_PUBLISHABLE_KEY
+);
+
+const d = document.getElementById("date");
+d.value = new Date().toISOString().slice(0,10);
+
+let allLoads = [];
+
+function getValue(row, names, fallback="") {
+  for (const name of names) {
+    if (row[name] !== undefined && row[name] !== null && row[name] !== "") {
+      return row[name];
+    }
+  }
+  return fallback;
 }
-function showToast(t){const x=document.getElementById('toast');x.textContent=t;x.style.display='block';setTimeout(()=>x.style.display='none',2200)}
+
+function formatDate(value) {
+  if (!value) return "-";
+  const date = new Date(value);
+  if (isNaN(date)) return value;
+  return date.toLocaleDateString("tr-TR", {
+    day: "numeric",
+    month: "long"
+  });
+}
+
+function renderLoads(loads) {
+  const box = document.getElementById("loads");
+  box.innerHTML = "";
+
+  if (!loads || loads.length === 0) {
+    box.innerHTML = `
+      <div class="load">
+        <div class="route">Uygun yük bulunamadı</div>
+        <div class="note">Filtreleri değiştirip tekrar deneyebilirsin.</div>
+      </div>
+    `;
+    return;
+  }
+
+  loads.forEach(row => {
+    const origin = getValue(row, ["origin","from","nereden","yukleme_yeri"], "Konya");
+    const destination = getValue(row, ["destination","to","nereye","varis_yeri"], "-");
+    const vehicle = getValue(row, ["vehicle_type","vehicle","arac_tipi"], "Belirtilmemiş");
+    const tonnage = getValue(row, ["tonnage","weight","ton","agirlik"], "");
+    const loadingDate = getValue(row, ["loading_date","load_date","date","yukleme_tarihi"], "");
+    const price = getValue(row, ["price","freight","ucret","fiyat"], "");
+    const description = getValue(row, ["description","aciklama","details"], "");
+    const phone = getValue(row, ["phone","telefon","contact"], "");
+
+    const card = document.createElement("div");
+    card.className = "load";
+
+    card.innerHTML = `
+      <div class="route">
+        ${origin} <span class="arrow">→</span> ${destination}
+      </div>
+
+      <div class="meta">
+        ${tonnage ? `<span class="pill">${tonnage} ton</span>` : ""}
+        <span class="pill">${vehicle}</span>
+        ${loadingDate ? `<span class="pill">${formatDate(loadingDate)}</span>` : ""}
+      </div>
+
+      ${price ? `<div class="price">${price} TL</div>` : ""}
+
+      ${description ? `
+        <div class="note" style="text-align:left;margin-top:8px">
+          ${description}
+        </div>` : ""}
+
+      ${phone ? `
+        <button
+          onclick="window.location.href='tel:${phone}'"
+          style="margin-top:10px;border:0;border-radius:10px;background:#0f766e;color:white;padding:10px 14px;font-weight:700">
+          📞 İletişime Geç
+        </button>` : ""}
+    `;
+
+    box.appendChild(card);
+  });
+}
+
+async function loadLoads() {
+  const box = document.getElementById("loads");
+
+  box.innerHTML = `
+    <div class="load">
+      <div class="route">Yükler yükleniyor...</div>
+    </div>
+  `;
+
+  const { data, error } = await supabaseClient
+    .from("yukler")
+    .select("*")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    console.error(error);
+    box.innerHTML = `
+      <div class="load">
+        <div class="route">Yükler alınamadı</div>
+        <div class="note" style="text-align:left">
+          Supabase bağlantısını kontrol et.
+        </div>
+      </div>
+    `;
+    return;
+  }
+
+  allLoads = data || [];
+  renderLoads(allLoads);
+}
+
+function findLoads() {
+  const dest = document
+    .getElementById("destination")
+    .value
+    .trim()
+    .toLowerCase();
+
+  const vehicle = document
+    .getElementById("vehicle")
+    .value
+    .toLowerCase();
+
+  const date = document.getElementById("date").value;
+
+  const filtered = allLoads.filter(row => {
+    const rowDest = String(
+      getValue(row, ["destination","to","nereye","varis_yeri"], "")
+    ).toLowerCase();
+
+    const rowVehicle = String(
+      getValue(row, ["vehicle_type","vehicle","arac_tipi"], "")
+    ).toLowerCase();
+
+    const rowDate = String(
+      getValue(row, ["loading_date","load_date","date","yukleme_tarihi"], "")
+    ).slice(0,10);
+
+    const okDest = !dest || rowDest.includes(dest);
+    const okVehicle =
+      !vehicle ||
+      vehicle === "13.60 tır" ||
+      rowVehicle.includes(vehicle.replace(" tır",""));
+
+    const okDate = !date || !rowDate || rowDate === date;
+
+    return okDest && okVehicle && okDate;
+  });
+
+  renderLoads(filtered);
+  showToast(filtered.length + " uygun yük bulundu");
+}
+
+function showToast(t) {
+  const x = document.getElementById("toast");
+  x.textContent = t;
+  x.style.display = "block";
+
+  setTimeout(() => {
+    x.style.display = "none";
+  }, 2200);
+}
+
+loadLoads();
 </script>
 </body>
 </html>
