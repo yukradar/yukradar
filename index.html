@@ -787,7 +787,7 @@ function findLoads() {
             ],
             ""
           )
-        ).trim().toLowerCase();
+        ).trim().toLocaleLowerCase(''tr-TR);
 
       const rowOrigin =
         String(
@@ -833,11 +833,11 @@ function findLoads() {
 
       const okOrigin =
         !city ||
-        rowOrigin.includes(city);
+        rowOrigin.toLocaleLowerCase("tr-TR").includes(city);
 
       const okDest =
         !dest ||
-        rowDest.includes(dest);
+        rowDest.toLocaleLowerCase("tr-TR").includes(dest);
 
       const okVehicle =
         !vehicle ||
