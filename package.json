@@ -1,0 +1,25 @@
+{
+  "name": "yukradar",
+  "version": "1.0.0",
+  "description": "<!-- **yukradar/yukradar** is a ✨ _special_ ✨ repository because its `README.md` (this file) appears on your GitHub profile.",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yukradar/yukradar.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/yukradar/yukradar/issues"
+  },
+  "homepage": "https://github.com/yukradar/yukradar#readme",
+  "dependencies": {
+    "express": "^5.2.1"
+  }
+}
