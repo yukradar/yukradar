@@ -16,7 +16,23 @@ app.get("/api/yukler", (req, res) => {
 app.get("/", (req, res) => {
   res.send("YükRadar Backend çalışıyor 🚚");
 });
+const gelenYukler = [];
 
+app.post("/api/kaynaklar/yuk", (req, res) => {
+  const yuk = req.body;
+
+  gelenYukler.push({
+    id: Date.now(),
+    ...yuk,
+    alindi: new Date().toISOString()
+  });
+
+  res.json({
+    success: true,
+    message: "Yük YükRadar'a alındı",
+    yuk
+  });
+});
 app.listen(PORT, () => {
   console.log(`YükRadar backend ${PORT} portunda çalışıyor`);
 });
