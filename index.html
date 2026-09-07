@@ -915,7 +915,22 @@ function showToast(t) {
 }
 
 loadLoads();
+async function backendYukleriniGetir() {
+  try {
+    const cevap = await fetch("/api/yukler");
+    const veri = await cevap.json();
 
+    console.log("YükRadar backend yükleri:", veri);
+
+    if (veri.yukler && veri.yukler.length > 0) {
+      console.log("Gelen yük sayısı:", veri.yukler.length);
+    }
+  } catch (hata) {
+    console.error("Backend yükleri alınamadı:", hata);
+  }
+}
+
+backendYukleriniGetir();
 </script>
 
 </body>
