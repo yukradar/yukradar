@@ -9,7 +9,7 @@ app.get("/api/yukler", (req, res) => {
   res.json({
     success: true,
     message: "YükRadar yük sistemi çalışıyor",
-    yukler: []
+    yukler: gelenYukler
   });
 });
 
