@@ -5,25 +5,27 @@ const { GoogleGenerativeAI } = require('@google/generative-ai');
 const app = express();
 app.use(express.json());
 
-// Supabase ve Gemini Bağlantıları
+// Supabase Bağlantısı
 const SUPABASE_URL = "https://inqemiglfelvepxgjlod.supabase.co";
 const SUPABASE_SERVICE_KEY = "sb_publishable_cqK2O5-DBEPzhqOmC4yFVg_WIQDBGys";
-
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
-const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "YOUR_GEMINI_API_KEY");
 
-// Gelen Ham WhatsApp/Facebook Mesajını Yapay Zekâ ile İşleme Endpoint'i
+// Gemini API Bağlantısı
+const apiKey = process.env.GEMINI_API_KEY || "YOUR_GEMINI_API_KEY";
+const genAI = new GoogleGenerativeAI(apiKey);
+
+// Gelen Ham WhatsApp/Facebook Mesajını İşleme Endpoint'i
 app.post('/api/incoming-post', async (req, res) => {
   try {
     const { rawText, source, senderPhone } = req.body;
 
-    if (!rawText || rawText.length < 10) {
+    if (!rawText || rawText.length < 5) {
       return res.status(400).json({ error: 'Geçersiz mesaj' });
     }
 
     console.log("Yeni mesaj işleniyor:", rawText);
 
-    // 1. Gemini ile Metni JSON Verisine Dönüştürme
+    // Gemini 1.5 Flash Modeli (Doğru Metot: getGenerativeModel)
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     const prompt = `
     Aşağıdaki nakliye/yük ilan metnini analiz et. Yanıtı SADECE geçerli bir JSON formatında ver, başka hiçbir açıklama yazma.
@@ -51,7 +53,7 @@ app.post('/api/incoming-post', async (req, res) => {
 
     const parsedData = JSON.parse(jsonMatch[0]);
 
-    // 2. Supabase Veritabanına Ekleme
+    // Supabase Veritabanına Ekleme
     const loadRecord = {
       origin: parsedData.origin || 'Belirtilmedi',
       destination: parsedData.destination || 'Belirtilmedi',
