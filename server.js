@@ -4,15 +4,13 @@ const { createClient } = require('@supabase/supabase-js');
 const app = express();
 app.use(express.json());
 
-// Supabase Bağlantısı
 const SUPABASE_URL = "https://inqemiglfelvepxgjlod.supabase.co";
 const SUPABASE_SERVICE_KEY = "sb_publishable_cqK2O5-DBEPzhqOmC4yFVg_WIQDBGys";
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
-// Gerçek Gemini API Anahtarınız
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "BURAYA_GERCEK_GEMINI_API_KEY_YAZIN";
+// Kendi Gemini API Anahtarınızı Buraya Ekleyin
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "BURAYA_API_KEY_YAZIN";
 
-// Gelen Ham WhatsApp/Facebook Mesajını İşleme Endpoint'i
 app.post('/api/incoming-post', async (req, res) => {
   try {
     const { rawText, source, senderPhone } = req.body;
@@ -23,7 +21,6 @@ app.post('/api/incoming-post', async (req, res) => {
 
     console.log("Yeni mesaj işleniyor:", rawText);
 
-    // Gemini API REST İstegi
     const prompt = `
     Aşağıdaki nakliye/yük ilan metnini analiz et. Yanıtı SADECE geçerli bir JSON formatında ver, başka hiçbir açıklama yazma.
     JSON Şeması:
@@ -63,7 +60,6 @@ app.post('/api/incoming-post', async (req, res) => {
 
     const parsedData = JSON.parse(jsonMatch[0]);
 
-    // Supabase Veritabanına Ekleme
     const loadRecord = {
       origin: parsedData.origin || 'Belirtilmedi',
       destination: parsedData.destination || 'Belirtilmedi',
