@@ -13,9 +13,7 @@ app.get("/api/yukler", (req, res) => {
   });
 });
 
-app.get("/", (req, res) => {
-  res.send("YükRadar Backend çalışıyor 🚚");
-});
+app.use(express.static(__dirname));
 const gelenYukler = [];
 
 app.post("/api/kaynaklar/yuk", (req, res) => {
