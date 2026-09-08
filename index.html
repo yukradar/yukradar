@@ -923,8 +923,11 @@ async function backendYukleriniGetir() {
     console.log("YükRadar backend yükleri:", veri);
 
     if (veri.yukler && veri.yukler.length > 0) {
-      console.log("Gelen yük sayısı:", veri.yukler.length);
-    }
+    console.log("Gelen yük sayısı:", veri.yukler.length);
+
+    allLoads = veri.yukler;
+    renderLoads(allLoads);
+}
   } catch (hata) {
     console.error("Backend yükleri alınamadı:", hata);
   }
