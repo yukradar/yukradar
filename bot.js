@@ -52,4 +52,6 @@ client.on('message', async (msg) => {
   }
 });
 
-client.initialize();
+client.initialize().catch(err => {
+  console.error("❌ Whatsapp Başlatma Hatası:", err);
+});
