@@ -8,8 +8,8 @@ const SUPABASE_URL = "https://inqemiglfelvepxgjlod.supabase.co";
 const SUPABASE_SERVICE_KEY = "sb_publishable_cqK2O5-DBEPzhqOmC4yFVg_WIQDBGys";
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
-// Gemini API Anahtarı
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "GERCEK_AQ.Ab8RN6KyZniAjtZyN9Ja4ckRAOPv2NFvIDxFkBRW09-w_wG6JAAPI_KEY_BURAYA";
+// Kendi Gemini API Anahtarınızı Buraya Ekleyin (AIzaSy... ile başlamalı)
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "BURAYA_SADECE_AIzaSy_ILE_BASLAYAN_KEYI_YAZIN";
 
 app.post('/api/incoming-post', async (req, res) => {
   try {
