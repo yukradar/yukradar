@@ -23,7 +23,7 @@ app.post('/api/incoming-post', async (req, res) => {
 
     console.log("Yeni mesaj işleniyor:", rawText);
 
-    // 1. Gemini ile Metni JSON Verisine Dönüştürme (Doğru fonksiyon adı kullanıldı)
+    // 1. Gemini ile Metni JSON Verisine Dönüştürme
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     const prompt = `
     Aşağıdaki nakliye/yük ilan metnini analiz et. Yanıtı SADECE geçerli bir JSON formatında ver, başka hiçbir açıklama yazma.
