@@ -25,7 +25,7 @@ app.post('/api/incoming-post', async (req, res) => {
 
     console.log("Yeni mesaj işleniyor:", rawText);
 
-    // Gemini 1.5 Flash Modeli (Doğru Metot: getGenerativeModel)
+    // Gemini 1.5 Flash Modeli
     const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     const prompt = `
     Aşağıdaki nakliye/yük ilan metnini analiz et. Yanıtı SADECE geçerli bir JSON formatında ver, başka hiçbir açıklama yazma.
