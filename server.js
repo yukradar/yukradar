@@ -7,7 +7,7 @@ app.use(express.json());
 
 // Supabase ve Gemini Bağlantıları
 const SUPABASE_URL = "https://inqemiglfelvepxgjlod.supabase.co";
-const SUPABASE_SERVICE_KEY = "sb_publishable_cqK2O5-DBEPzhqOmC4yFVg_WIQDBGys"; // Kendi service_role anahtarın varsa onu koyabilirsin
+const SUPABASE_SERVICE_KEY = "sb_publishable_cqK2O5-DBEPzhqOmC4yFVg_WIQDBGys";
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY || "YOUR_GEMINI_API_KEY");
@@ -23,8 +23,8 @@ app.post('/api/incoming-post', async (req, res) => {
 
     console.log("Yeni mesaj işleniyor:", rawText);
 
-    // 1. Gemini ile Metni JSON Verisine Dönüştürme
-    const model = genAI.getGenerativeAIModel({ model: 'gemini-1.5-flash' });
+    // 1. Gemini ile Metni JSON Verisine Dönüştürme (Doğru fonksiyon adı kullanıldı)
+    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
     const prompt = `
     Aşağıdaki nakliye/yük ilan metnini analiz et. Yanıtı SADECE geçerli bir JSON formatında ver, başka hiçbir açıklama yazma.
     JSON Şeması:
