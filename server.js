@@ -9,7 +9,7 @@ const SUPABASE_SERVICE_KEY = "sb_publishable_cqK2O5-DBEPzhqOmC4yFVg_WIQDBGys";
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
 // Gemini API Anahtarı
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "BURAYA_API_KEY_YAZIN";
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "GERCEK_API_KEY_BURAYA";
 
 app.post('/api/incoming-post', async (req, res) => {
   try {
