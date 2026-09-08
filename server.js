@@ -1,6 +1,5 @@
 const express = require('express');
 const { createClient } = require('@supabase/supabase-js');
-const { GoogleGenerativeAI } = require('@google/generative-ai');
 
 const app = express();
 app.use(express.json());
@@ -10,9 +9,7 @@ const SUPABASE_URL = "https://inqemiglfelvepxgjlod.supabase.co";
 const SUPABASE_SERVICE_KEY = "sb_publishable_cqK2O5-DBEPzhqOmC4yFVg_WIQDBGys";
 const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY);
 
-// Gemini API Bağlantısı
-const apiKey = process.env.GEMINI_API_KEY || "YOUR_GEMINI_API_KEY";
-const genAI = new GoogleGenerativeAI(apiKey);
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || "YOUR_GEMINI_API_KEY";
 
 // Gelen Ham WhatsApp/Facebook Mesajını İşleme Endpoint'i
 app.post('/api/incoming-post', async (req, res) => {
@@ -25,8 +22,7 @@ app.post('/api/incoming-post', async (req, res) => {
 
     console.log("Yeni mesaj işleniyor:", rawText);
 
-    // Gemini 1.5 Flash Modeli
-    const model = genAI.getGenerativeModel({ model: 'gemini-1.5-flash' });
+    // Gemini API'ye Doğrudan REST İstegi (Kütüphane bağımlılığı yok)
     const prompt = `
     Aşağıdaki nakliye/yük ilan metnini analiz et. Yanıtı SADECE geçerli bir JSON formatında ver, başka hiçbir açıklama yazma.
     JSON Şeması:
@@ -43,8 +39,21 @@ app.post('/api/incoming-post', async (req, res) => {
     Metin: "${rawText}"
     `;
 
-    const result = await model.generateContent(prompt);
-    const responseText = result.response.text();
+    const response = await fetch(`https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${GEMINI_API_KEY}`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents: [{ parts: [{ text: prompt }] }]
+      })
+    });
+
+    const aiResult = await response.json();
+    
+    if (!aiResult.candidates || !aiResult.candidates[0]) {
+      throw new Error("Gemini API yanıt vermedi: " + JSON.stringify(aiResult));
+    }
+
+    const responseText = aiResult.candidates[0].content.parts[0].text;
     const jsonMatch = responseText.match(/\{[\s\S]*\}/);
 
     if (!jsonMatch) {
